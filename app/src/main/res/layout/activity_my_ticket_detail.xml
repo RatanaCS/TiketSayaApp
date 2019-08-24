@@ -199,12 +199,29 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/barcode_ticket"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:layout_gravity="center"
             android:layout_width="222dp"
             android:layout_height="52dp"
             android:src="@drawable/ic_barcode"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_tiket"
+                android:text="1234567"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"/>
+
+        </LinearLayout>
+
+
 
     </LinearLayout>
 

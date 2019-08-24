@@ -36,12 +36,14 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.MyViewHold
         myViewHolder.xjumlah_tiket.setText((myTicket.get(i).getJumlah_tiket())+" Tickets");
 
         final String getNamaWisata = myTicket.get(i).getNama_wisata();
+        final String getIdTiket = myTicket.get(i).getId_tiket();
 
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent gotomyticketdetails = new Intent(context, MyTicketDetailAct.class);
                 gotomyticketdetails.putExtra("nama_wisata", getNamaWisata);
+                gotomyticketdetails.putExtra("id_tiket", getIdTiket);
                 context.startActivity(gotomyticketdetails);
             }
         });
