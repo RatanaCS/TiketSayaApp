@@ -30,6 +30,7 @@ public class TicketDetailAct extends AppCompatActivity {
     DatabaseReference reference;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
