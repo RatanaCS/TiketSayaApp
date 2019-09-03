@@ -339,13 +339,8 @@
 
                     <Button
                         android:id="@+id/btn_edit_profile"
-                        android:layout_width="match_parent"
-                        android:layout_height="55dp"
-                        android:background="@drawable/bg_btn_blue_primary"
-                        android:fontFamily="@font/mmedium"
-                        android:text="EDIT"
-                        android:textColor="#FFF"
-                        android:textSize="20sp"/>
+                        style="@style/btn_blue_primary"
+                        android:text="EDIT"/>
 
                 </LinearLayout>
 
