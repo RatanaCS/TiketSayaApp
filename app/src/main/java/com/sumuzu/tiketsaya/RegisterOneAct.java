@@ -25,7 +25,7 @@ public class RegisterOneAct extends AppCompatActivity {
     Button btn_continue;
     EditText username, password, email_address;
 
-    DatabaseReference reference;
+    DatabaseReference reference, reference_username;
 
     String USERNAME_KEY = "usernamekey";
     String username_key = "";
@@ -43,15 +43,16 @@ public class RegisterOneAct extends AppCompatActivity {
         password = findViewById(R.id.password);
         email_address = findViewById(R.id.email_address);
 
-        //ubah state button menjadi loading
+        //ubah state button menjadi continue
         btn_continue.setEnabled(true);
         btn_continue.setText("CONTINUE");
 
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent backtosignin = new Intent(RegisterOneAct.this,SignInAct.class);
-                startActivity(backtosignin);
+//                Intent backtosignin = new Intent(RegisterOneAct.this,SignInAct.class);
+//                startActivity(backtosignin);
+                onBackPressed();
             }
         });
 
@@ -62,6 +63,8 @@ public class RegisterOneAct extends AppCompatActivity {
                 //ubah state button menjadi loading
                 btn_continue.setEnabled(false);
                 btn_continue.setText("Loading ...");
+
+
 
                 String cusername = username.getText().toString();
                 String cpassword = password.getText().toString();
@@ -93,26 +96,55 @@ public class RegisterOneAct extends AppCompatActivity {
 
                 } else{
 
-                    //menyimpan data kepada local storage (handphone)
-                    SharedPreferences sharedPreferences = getSharedPreferences(USERNAME_KEY, MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString(username_key, username.getText().toString());
-                    editor.apply();
-
-//                //test apakah username sudah masuk storage local
-//                Toast.makeText(getApplicationContext(), "username "+
-//                        username.getText().toString(),Toast.LENGTH_SHORT).show();
-
-                    //simpan kepada database
-                    reference = FirebaseDatabase.getInstance().getReference()
+                    //mengambil username pada data Firebase
+                    reference_username = FirebaseDatabase.getInstance().getReference()
                             .child("Users").child(username.getText().toString());
-                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    reference_username.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            dataSnapshot.getRef().child("username").setValue(username.getText().toString());
-                            dataSnapshot.getRef().child("password").setValue(password.getText().toString());
-                            dataSnapshot.getRef().child("email_address").setValue(email_address.getText().toString());
-                            dataSnapshot.getRef().child("user_balance").setValue(1000);
+
+                            //jika username tersedia
+                            if(dataSnapshot.exists()){
+
+                                Toast.makeText(getApplicationContext(),"username" + username.getText().toString()+ " sudah digunakan !!", Toast.LENGTH_SHORT).show();
+
+                                username.requestFocus();
+                                btn_continue.setEnabled(true);
+                                btn_continue.setText("CONTINUE");
+
+                            }else {
+
+                                //menyimpan data kepada local storage (handphone)
+                                SharedPreferences sharedPreferences = getSharedPreferences(USERNAME_KEY, MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString(username_key, username.getText().toString());
+                                editor.apply();
+
+                                //simpan kepada database
+                                reference = FirebaseDatabase.getInstance().getReference()
+                                        .child("Users").child(username.getText().toString());
+                                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        dataSnapshot.getRef().child("username").setValue(username.getText().toString());
+                                        dataSnapshot.getRef().child("password").setValue(password.getText().toString());
+                                        dataSnapshot.getRef().child("email_address").setValue(email_address.getText().toString());
+                                        dataSnapshot.getRef().child("user_balance").setValue(0);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+
+
+                                //pindah activity
+                                Intent gotonextregister = new Intent(RegisterOneAct.this,RegisterTwoAct.class);
+                                startActivity(gotonextregister);
+
+                            }
+
                         }
 
                         @Override
@@ -122,9 +154,6 @@ public class RegisterOneAct extends AppCompatActivity {
                     });
 
 
-                    //pindah activity
-                    Intent gotonextregister = new Intent(RegisterOneAct.this,RegisterTwoAct.class);
-                    startActivity(gotonextregister);
 
                 }
 

@@ -67,8 +67,9 @@ public class RegisterTwoAct extends AppCompatActivity {
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent backtorev = new Intent(RegisterTwoAct.this,RegisterOneAct.class);
-                startActivity(backtorev);
+//                Intent backtorev = new Intent(RegisterTwoAct.this,RegisterOneAct.class);
+//                startActivity(backtorev);
+                onBackPressed();
             }
         });
 

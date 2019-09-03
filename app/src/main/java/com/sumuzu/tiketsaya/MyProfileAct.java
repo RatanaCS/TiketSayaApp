@@ -93,7 +93,7 @@ public class MyProfileAct extends AppCompatActivity {
             }
         });
 
-        reference2 = FirebaseDatabase.getInstance().getReference().child("MyTickets").child(username_key_new);
+        reference2 = FirebaseDatabase.getInstance().getReference().child("MyTickets").child(username_key_new).child("wisata");
         reference2.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -125,9 +125,10 @@ public class MyProfileAct extends AppCompatActivity {
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent gotoHomeProfile = new Intent(MyProfileAct.this, HomeAct.class);
-                startActivity(gotoHomeProfile);
-                finish();
+//                Intent gotoHomeProfile = new Intent(MyProfileAct.this, HomeAct.class);
+//                startActivity(gotoHomeProfile);
+//                finish();
+                onBackPressed();
             }
         });
 

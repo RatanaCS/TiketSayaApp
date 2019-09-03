@@ -81,7 +81,7 @@ public class MyTicketDetailAct extends AppCompatActivity {
         });
 
         //mengambil data dr firebase, kode tiket menjadi barcode
-        reference2 = FirebaseDatabase.getInstance().getReference().child("MyTickets").child(username_key_new).child(id_tiket_baru);
+        reference2 = FirebaseDatabase.getInstance().getReference().child("MyTickets").child(username_key_new).child("wisata").child(id_tiket_baru);
         reference2.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -92,8 +92,10 @@ public class MyTicketDetailAct extends AppCompatActivity {
 
                 try {
                     BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-                    Bitmap bitmap = barcodeEncoder.encodeBitmap(teksBarcode, BarcodeFormat.EAN_13, 400, 400);
+                    Bitmap bitmap = barcodeEncoder.encodeBitmap(teksBarcode, BarcodeFormat.EAN_13, 200, 50);
                     barcode_tiket.setImageBitmap(bitmap);
+
+
                 } catch(Exception e) {
                     e.printStackTrace();
                 }
@@ -119,9 +121,10 @@ public class MyTicketDetailAct extends AppCompatActivity {
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent gotoMyProfile = new Intent(MyTicketDetailAct.this, MyProfileAct.class);
-                startActivity(gotoMyProfile);
-                finish();
+//                Intent gotoMyProfile = new Intent(MyTicketDetailAct.this, MyProfileAct.class);
+//                startActivity(gotoMyProfile);
+//                finish();
+                onBackPressed();
             }
         });
 

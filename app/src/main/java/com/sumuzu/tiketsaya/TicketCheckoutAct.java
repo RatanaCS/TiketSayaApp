@@ -37,7 +37,7 @@ public class TicketCheckoutAct extends AppCompatActivity {
     Integer hargatiket = 50;
     Integer sisabalance =0;
 
-    DatabaseReference reference, reference2, reference3, reference4;
+    DatabaseReference reference, reference2, reference3, reference4, ref_username;
 
     String USERNAME_KEY = "usernamekey";
     String username_key = "";
@@ -189,9 +189,24 @@ public class TicketCheckoutAct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                //
+                ref_username = FirebaseDatabase.getInstance().getReference()
+                        .child("MyTickets").child(username_key_new).child("username");
+                ref_username.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        ref_username.getRef().setValue(username_key_new);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
                 //menyimpan data Tiket User dke Firebase dan membuat table baru "MyTickets"
                 reference3 = FirebaseDatabase.getInstance().getReference()
-                        .child("MyTickets").child(username_key_new)
+                        .child("MyTickets").child(username_key_new).child("wisata")
                         .child(nama_wisata.getText().toString() + nomor_transaksi);
                 reference3.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -215,6 +230,8 @@ public class TicketCheckoutAct extends AppCompatActivity {
 
                     }
                 });
+
+
 
                 //update data User ke Firebase
                 reference4 = FirebaseDatabase.getInstance().getReference().child("Users").child(username_key_new);
@@ -242,9 +259,10 @@ public class TicketCheckoutAct extends AppCompatActivity {
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent gotoHomeProfile = new Intent(TicketCheckoutAct.this,TicketDetailAct.class);
-                startActivity(gotoHomeProfile);
-                finish();
+//                Intent gotoHomeProfile = new Intent(TicketCheckoutAct.this,TicketDetailAct.class);
+//                startActivity(gotoHomeProfile);
+//                finish();
+                onBackPressed();
             }
         });
 
